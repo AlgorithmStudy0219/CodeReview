@@ -1,0 +1,28 @@
+# 1번 (기능 개발)
+- - -
+```
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<int> solution(vector<int> progresses, vector<int> speeds) {
+    vector<int> answer;
+    while(!progresses.empty()) {    // 작업벡터가 비면 종료
+        for(int i=0; i< progresses.size(); i++)
+            if(progresses[i] < 100) progresses[i] += speeds[i]; // 모든 작업의 진도 증가
+        
+        if(progresses.front() >= 100)   {   // 맨 앞의 작업이 100에 도달했다면
+            int count = 0;
+            for(vector<int>::iterator it = progresses.begin(); it != progresses.end(); it++) {
+                if(*it >= 100)   count++;   // 그 뒤에 작업들 중 100에 도달한 작업 카운트
+                else    break;              // 100에 도달하지 못한 작업을 만나면 break
+            }
+            progresses.erase(progresses.begin(), progresses.begin()+count);
+            speeds.erase(speeds.begin(), speeds.begin()+count);
+            answer.push_back(count);    // 배포작업의 수를 push_back
+        }
+    }
+    return answer;
+}
+```
